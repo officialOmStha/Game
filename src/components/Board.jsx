@@ -6,7 +6,9 @@ const Board = () => {
   const [running, setRunning] = useState(true);
   const [winner, setWinner] = useState(null);
   const [wcombo, setWcombo] = useState([]);
-
+  const [plrwin, setPlrwin] = useState(0);
+  const [botwin, setBotwin] = useState(0);
+  
   const wins = [
     [0, 1, 2],
     [3, 4, 5],
@@ -48,16 +50,47 @@ const Board = () => {
     return null;
   };
 
+  const botBestMove = (board) => {
+    if(board[4] === "") return 4;
+
+    for (let combo of wins){
+      const [a, b, c] = combo;
+      const values = [board[a], board[b], board[c]]
+
+      if(
+        values.filter(v => v === "O").length === 2 &&
+        values.includes("")
+      ){
+        return combo[values.indexOf("")];
+      }
+    }
+
+    for (let combo of wins){
+      const [a, b, c] = combo;
+      const values = [board[a], board[b], board[c]];
+
+      if (
+        values.filter(v => v === "X").length === 2 &&
+        values.includes("")
+      ){
+        return combo[values.indexOf("")]
+      }
+    }
+
+    const empty = board
+    .map((v, i) => (v === ""? i : null))
+    .filter(i => i !== null);
+
+    return empty[Math.floor(Math.random() * empty.length)];
+  }
+
   useEffect(() => {
     if (!turn && running) {
       const timer = setTimeout(() => {
-        const empIdx = box
-          .map((val, idx) => (val === "" ? idx : null))
-          .filter((idx) => idx !== null);
+        if(!running || winner) return;
 
-        if (empIdx.length === 0) return;
-
-        const botNum = empIdx[Math.floor(Math.random() * empIdx.length)];
+        const botNum = botBestMove(box);
+        if (botNum === undefined) return;
 
         const newBox = [...box];
         newBox[botNum] = "O";
@@ -67,7 +100,7 @@ const Board = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [turn, box, running]);
+  }, [turn, box, running, winner]);
 
   useEffect(() => {
     const win = checkwinner(box);
@@ -83,6 +116,15 @@ const Board = () => {
       setWinner("Draw");
     }
   }, [box]);
+
+  useEffect(() => {
+    if(winner === "X"){
+      setPlrwin(prev => prev + 1);
+    }else if(winner === "O"){
+      setBotwin(prev => prev + 1);
+    }
+
+  },[winner])
 
   return (
     <section className="w-full h-full md:px-20 md:py-5 p-4">
@@ -125,6 +167,10 @@ const Board = () => {
         className="w-25 px-4 text-white border-2 rounded-3xl border-gray-600 bg-green-600 hover:bg-gray-500 hover:border-green-500"
         onClick={handleReset}
         >Reset</button>}
+      </div>
+      <div className="w-full flex justify-between items-center">
+          <span className="text-green-500"> Player Win: {plrwin}</span>
+          <span className="text-red-500"> Bot Win: {botwin}</span>
       </div>
     </section>
   );
