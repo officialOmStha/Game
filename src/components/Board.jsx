@@ -28,6 +28,8 @@ const Board = () => {
     setRunning(true);
     setWinner(null);
     setWcombo([]);
+    setXind([]);
+    setOind([]);
   }
 
   const handleClick = (index) => {
@@ -35,9 +37,19 @@ const Board = () => {
     if (!turn) return;
     if (box[index] !== "") return;
 
-    const newBox = [...box];
+    let newBox = [...box];
+    let newXind = [...xind];
+
+    if(newXind.length === 3){
+      const removeIndex = newXind.shift();
+      newBox[removeIndex] = "";
+    }
+
     newBox[index] = "X";
+    newXind.push(index);
+
     setBox(newBox);
+    setXind(newXind);
     setTurn(false);
   };
 
@@ -95,14 +107,25 @@ const Board = () => {
         if (botNum === undefined) return;
 
         const newBox = [...box];
+        let newOind = [...oind];
+
+        if(newOind.length === 3){
+          const removeIndex = newOind.shift();
+          newBox[removeIndex] = "";
+        }
+
         newBox[botNum] = "O";
+        newOind.push(botNum);
+
+
         setBox(newBox);
+        setOind(newOind);
         setTurn(true);
       }, 1000);
 
       return () => clearTimeout(timer);
     }
-  }, [turn, box, running, winner]);
+  }, [turn, box, running, winner, oind]);
 
   useEffect(() => {
     const win = checkwinner(box);
@@ -111,11 +134,6 @@ const Board = () => {
       setRunning(false);
       setWinner(win);
       return;
-    }
-
-    if (box.every((cell) => cell !== "")) {
-      setRunning(false);
-      setWinner("Draw");
     }
   }, [box]);
 
