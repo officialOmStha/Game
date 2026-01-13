@@ -160,13 +160,11 @@ const Board = () => {
     flex items-center justify-center
     text-4xl font-bold
     cursor-pointer
-    select-none
-    ${wcombo.includes(index) ? "bg-green-300" : running ? "hover:bg-gray-200" : "bg-gray-100 cursor-not-allowed"}
-    ${index === xind[0] || index === oind[0] ? "animate-pulse" : ""}
-  `}
+    select-none scale-up
+    ${wcombo.includes(index) ? "win-pluse" : running ? "hover:bg-gray-200" : "bg-gray-100 cursor-not-allowed"}`}
             onClick={() => handleClick(index)}
           >
-            {val}
+            <span className={index === xind[0] || index === oind[0] ? "blink" : ""}>{val}</span>
           </div>
         ))}
       </div>

@@ -6,5 +6,23 @@
 }
 
 .blink {
-  animation: blink 1s infinite;
+  animation: blink 2s infinite !important;
+}
+
+
+@keyframes scaleUp {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+.scale-up {
+  animation: scaleUp 0.3s ease-in-out;
+}
+
+@keyframes winPulse {
+  0%, 100% { background-color: #bbf7d0; }
+  50% { background-color: #4ade80; }
+}
+.win-pulse {
+  animation: winPulse 1s infinite;
 }
