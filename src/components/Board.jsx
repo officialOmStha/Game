@@ -65,8 +65,6 @@ const Board = () => {
   };
 
   const botBestMove = (board) => {
-    if(board[4] === "") return 4;
-
     for (let combo of wins){
       const [a, b, c] = combo;
       const values = [board[a], board[b], board[c]]
@@ -90,6 +88,9 @@ const Board = () => {
         return combo[values.indexOf("")]
       }
     }
+    // for capturing center if open.
+    if(board[4] === "") return 4; 
+
 
     const empty = board
     .map((v, i) => (v === ""? i : null))
@@ -161,6 +162,7 @@ const Board = () => {
     cursor-pointer
     select-none
     ${wcombo.includes(index) ? "bg-green-300" : running ? "hover:bg-gray-200" : "bg-gray-100 cursor-not-allowed"}
+    ${index === xind[0] || index === oind[0] ? "animate-pulse" : ""}
   `}
             onClick={() => handleClick(index)}
           >
