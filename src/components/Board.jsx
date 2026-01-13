@@ -184,9 +184,9 @@ const Board = () => {
           ))}
 
         {winner && <button
-        className="w-25 px-4 text-white border-2 rounded-3xl border-gray-600 bg-green-600 hover:bg-gray-500 hover:border-green-500"
+        className="w-25 py-1 px-4 text-white border-2 rounded-3xl border-gray-600 bg-green-600 hover:bg-gray-500 hover:border-green-500"
         onClick={handleReset}
-        >Reset</button>}
+        >New</button>}
       </div>
       <div className="w-full flex justify-between items-center">
           <span className="text-green-500"> Player Win: {plrwin}</span>
