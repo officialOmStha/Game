@@ -8,6 +8,8 @@ const Board = () => {
   const [wcombo, setWcombo] = useState([]);
   const [plrwin, setPlrwin] = useState(0);
   const [botwin, setBotwin] = useState(0);
+  const [xind, setXind] = useState([]);
+  const [oind, setOind] = useState([]);
   
   const wins = [
     [0, 1, 2],
