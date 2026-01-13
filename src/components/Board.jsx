@@ -161,10 +161,10 @@ const Board = () => {
     text-4xl font-bold
     cursor-pointer
     select-none scale-up
-    ${wcombo.includes(index) ? "win-pluse" : running ? "hover:bg-gray-200" : "bg-gray-100 cursor-not-allowed"}`}
+    ${wcombo.includes(index) ? "win-pluse bg-green-400" : running ? "hover:bg-gray-200" : "bg-gray-100 cursor-not-allowed"}`}
             onClick={() => handleClick(index)}
           >
-            <span className={index === xind[0] || index === oind[0] ? "blink" : ""}>{val}</span>
+            <span className={running && (index === xind[0] || index === oind[0])? "blink" : ""}>{val}</span>
           </div>
         ))}
       </div>
